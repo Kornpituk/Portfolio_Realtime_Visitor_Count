@@ -1,31 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextResponse } from "next/server"
+/* app/api/visitor/route.ts */
 import { supabaseServer } from "@/lib/supabase"
+import { NextResponse } from "next/server"
+
+export async function POST(req: Request) {
+  try {
+    const { name, avatar_url } = await req.json()
+
+    // insert visitor
+    const { data, error } = await supabaseServer
+      .from("visitors")
+      .insert([{ name, avatar_url }])
+      .select("id_user") // คืน id_user จาก row ใหม่
+
+    if (error) throw error
+
+    return NextResponse.json({ data: data?.[0] }) // { id_user: "..." }
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 })
+  }
+}
+
 
 export async function GET() {
-    try {
-        // อ่านค่าปัจจุบัน
-        const { data, error } = await supabaseServer
-            .from("visitors")
-            .select("count")
-            .eq("id", 1)
-            .single()
+  try {
+    const { count, error } = await supabaseServer
+      .from("visitors")
+      .select("*", { count: "exact", head: true }) // head:true → ไม่เอาข้อมูล แค่ count
 
-        if (error) throw error
+    if (error) throw error
 
-        const newCount = (data?.count ?? 0) + 1
-
-        // update +1
-        const { error: updateError } = await supabaseServer
-            .from("visitors")
-            .update({ count: newCount })
-            .eq("id", 1)
-
-        if (updateError) throw updateError
-
-        return NextResponse.json({ count: newCount })
-    } catch (err: any) {
-        console.error("Visitor API error:", err.message)
-        return NextResponse.json({ error: err.message }, { status: 500 })
-    }
+    return NextResponse.json({ count })
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 })
+  }
 }
