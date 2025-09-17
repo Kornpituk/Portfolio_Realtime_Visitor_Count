@@ -7,7 +7,7 @@ import { EducationTimeline } from "@/components/sections/about/education-timelin
 
 export default function AboutPage() {
     return (
-        <section className="w-full max-w-5xl mx-auto px-6 py-16 space-y-20">
+        <section className="w-full max-w-5xl mx-auto px-6 py-18 space-y-20">
             <AboutMe />
             <Skills />
             <ExperienceTimeline />

@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { TopNavbar } from "@/components/common/navbar"
 import { Footer } from "@/components/common/footer"
 import { Toaster } from "@/components/ui/sonner"
+import { LayoutWrapper } from "@/components/common/LayoutWrapper"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,10 +40,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TopNavbar />
-          <main className="min-h-[80vh]">{children}</main>
-           <Toaster />
-          <Footer />
+          {/* ✅ ย้าย logic ซ่อน navbar/footer มาไว้ใน LayoutWrapper */}
+          <LayoutWrapper>{children}</LayoutWrapper>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

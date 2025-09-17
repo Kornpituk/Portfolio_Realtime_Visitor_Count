@@ -7,8 +7,14 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Eye } from "lucide-react"
-import { motion, AnimatePresence  } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
+import avartar01 from "@/assets/icons/bird.png"
+import avartar02 from "@/assets/icons/deer.png"
+import avartar03 from "@/assets/icons/jacutinga.png"
+import avartar04 from "@/assets/icons/jaguar.png"
+import avartar05 from "@/assets/icons/pelican.png"
+import avartar06 from "@/assets/icons/rabbit.png"
 
 // Supabase client
 const supabase = createClient(
@@ -18,10 +24,12 @@ const supabase = createClient(
 
 // avatar ที่ระบบมีให้เลือก
 const presetAvatars = [
-  "/avatars/cat.png",
-  "/avatars/dog.png",
-  "/avatars/fox.png",
-  "/avatars/panda.png",
+  avartar01,
+  avartar02,
+  avartar03,
+  avartar04,
+  avartar05,
+  avartar06,
 ]
 
 export function VisitorCounter() {
@@ -91,6 +99,9 @@ export function VisitorCounter() {
       localStorage.setItem("visitor_avatar", avatar)
       localStorage.setItem("visitor_id", data.data.id_user)
 
+      // ทุกครั้งที่ login → set session
+      sessionStorage.setItem("active_user", "true")
+
       fetchVisitorCount()
     } catch (err: any) {
       console.error("Failed to save visit:", err.message)
@@ -125,9 +136,9 @@ export function VisitorCounter() {
             <div className="grid grid-cols-4 gap-3 mb-4">
               {presetAvatars.map((avatar) => (
                 <button
-                  key={avatar}
-                  onClick={() => setSelectedAvatar(avatar)}
-                  className={`rounded-lg border p-1 hover:scale-105 transition ${selectedAvatar === avatar ? "border-blue-500" : "border-gray-300"
+                  key={avatar.src}
+                  onClick={() => setSelectedAvatar(avatar.src)}
+                  className={`rounded-lg border p-1 hover:scale-105 transition ${selectedAvatar === avatar.src ? "border-blue-500" : "border-gray-300"
                     }`}
                 >
                   <Image
