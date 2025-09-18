@@ -15,7 +15,7 @@ const navItems = [
 ]
 
 export function TopNavbar() {
-    const [expanded, setExpanded] = useState(false)
+    const [expanded, setExpanded] = useState(true)
 
     return (
         <>
