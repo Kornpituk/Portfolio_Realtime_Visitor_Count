@@ -3,8 +3,8 @@
 import { motion } from "framer-motion"
 
 const education = [
-    { year: "2017 - 2021", degree: "B.Sc. Computer Science", school: "XYZ University" },
-    { year: "2014 - 2017", degree: "High School", school: "ABC High School" },
+    { year: "2018 - 2022", degree: "Bachelor of Engineering in Computer Engineering", school: "Rajamangala University of Technology Lanna, Chiang Mai" },
+    { year: "2012 - 2017", degree: "High School", school: "Mea Cheam School" },
 ]
 
 export function EducationTimeline() {
@@ -21,7 +21,7 @@ export function EducationTimeline() {
                 {education.map((edu, i) => (
                     <li key={i} className="relative">
                         <span className="absolute -left-[10px] w-4 h-4 bg-primary rounded-full" />
-                        <p className="text-sm text-muted-foreground">{edu.year}</p>
+                        <p className="text-sm mx-4 text-muted-foreground">{edu.year}</p>
                         <p className="font-semibold">{edu.degree}</p>
                         <p className="text-sm">{edu.school}</p>
                     </li>

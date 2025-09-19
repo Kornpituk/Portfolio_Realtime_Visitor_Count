@@ -33,19 +33,19 @@ export default function Hero() {
                 transition={{ delay: 0.5, duration: 0.6 }}
             >
                 <Button asChild>
-                    <a href="/projects">View Projects</a>
+                    <a href="/public-pages/projects">View Projects</a>
                 </Button>
                 <Button variant="outline" asChild>
-                    <a href="/contact">Contact Me</a>
+                    <a href="/public-pages/contact">Contact Me</a>
                 </Button>
             </motion.div>
 
             {/* Social Links */}
             <div className="flex gap-4 mt-6">
-                <a href="https://github.com/yourusername" target="_blank">
+                <a href="https://github.com/Kornpituk" target="_blank">
                     <Github className="w-6 h-6 hover:text-primary transition-colors" />
                 </a>
-                <a href="https://linkedin.com/in/yourusername" target="_blank">
+                <a href="https://www.linkedin.com/in/kornpituk-kunnika-134336271/e" target="_blank">
                     <Linkedin className="w-6 h-6 hover:text-primary transition-colors" />
                 </a>
                 <a href="mailto:youremail@example.com">

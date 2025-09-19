@@ -9,9 +9,9 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center">
       <Hero />
-      <VisitorCounter />
       <TechStack />
       <RecentProjects />
+      <VisitorCounter />
     </main>
   );
 }

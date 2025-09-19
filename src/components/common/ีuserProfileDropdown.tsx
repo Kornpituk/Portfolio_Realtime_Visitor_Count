@@ -41,8 +41,8 @@ export function UserProfileDropdown() {
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="cursor-pointer w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center 
-                   shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
+                className="cursor-pointer w-14 h-14 rounded-full bg-background flex items-center justify-center 
+                   shadow-md hover:shadow-lg transition-all duration-300 ease-in-out border-4"
             >
                 {visitorAvatar ? (
                     <>
