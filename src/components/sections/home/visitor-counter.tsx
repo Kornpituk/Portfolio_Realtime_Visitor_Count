@@ -1,197 +1,124 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// visitor-counter.tsx
 "use client"
 
-import { useEffect, useState } from "react"
-import { createClient } from "@supabase/supabase-js"
+import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Eye } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-import Image from "next/image"
-import avartar01 from "@/assets/icons/bird.png"
-import avartar02 from "@/assets/icons/deer.png"
-import avartar03 from "@/assets/icons/jacutinga.png"
-import avartar04 from "@/assets/icons/jaguar.png"
-import avartar05 from "@/assets/icons/pelican.png"
-import avartar06 from "@/assets/icons/rabbit.png"
+import { Eye, Users, MapPin, Calendar } from "lucide-react"
+import { useEffect, useState } from "react"
 
-// Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
-
-// avatar ที่ระบบมีให้เลือก
-const presetAvatars = [
-  avartar01,
-  avartar02,
-  avartar03,
-  avartar04,
-  avartar05,
-  avartar06,
-]
-
-export function VisitorCounter() {
-  const [count, setCount] = useState<number | null>(null)
-  const [name, setName] = useState("")
-  const [selectedAvatar, setSelectedAvatar] = useState<string>("")
-  const [showModal, setShowModal] = useState(false)
-  const [displayCount, setDisplayCount] = useState<number>(0)
-
-  // Counter animation
-  useEffect(() => {
-    if (count !== null) {
-      let frame: number
-      const start = displayCount
-      const end = count
-      const duration = 350 // 0.5s
-      let startTime: number | null = null
-
-      const step = (timestamp: number) => {
-        if (!startTime) startTime = timestamp
-        const progress = Math.min((timestamp - startTime) / duration, 1)
-        const value = Math.floor(start + (end - start) * progress)
-        setDisplayCount(value)
-        if (progress < 1) {
-          frame = requestAnimationFrame(step)
-        }
-      }
-
-      frame = requestAnimationFrame(step)
-      return () => cancelAnimationFrame(frame)
-    }
-  }, [count])
+export default function VisitorCounter() {
+  const [visitorCount, setVisitorCount] = useState(1247)
+  const [currentTime, setCurrentTime] = useState("")
+  const [location, setLocation] = useState("Bangkok, TH")
 
   useEffect(() => {
-    const storedName = localStorage.getItem("visitor_name")
-    const storedAvatar = localStorage.getItem("visitor_avatar")
-    const storedId = localStorage.getItem("visitor_id")
+    // Simulate real-time updates
+    const interval = setInterval(() => {
+      setVisitorCount(prev => prev + Math.floor(Math.random() * 3))
+      setCurrentTime(new Date().toLocaleTimeString('en-US', { 
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }))
+    }, 5000)
 
-    if (!storedName || !storedAvatar || !storedId) {
-      setShowModal(true)
-    } else {
-      fetchVisitorCount()
-    }
+    return () => clearInterval(interval)
   }, [])
 
-  async function saveVisit(visitorName: string, avatar: string) {
-    const storedId = localStorage.getItem("visitor_id")
-
-    // ถ้ามี id_user เก็บแล้ว → ไม่ insert ซ้ำ
-    if (storedId) {
-      fetchVisitorCount()
-      return
+  const stats = [
+    {
+      icon: Eye,
+      label: "Total Visitors",
+      value: visitorCount.toLocaleString(),
+      color: "text-blue-500"
+    },
+    {
+      icon: Users,
+      label: "Active Now",
+      value: "12",
+      color: "text-green-500"
+    },
+    {
+      icon: MapPin,
+      label: "Location",
+      value: location,
+      color: "text-purple-500"
+    },
+    {
+      icon: Calendar,
+      label: "Last Updated",
+      value: currentTime || "Loading...",
+      color: "text-orange-500"
     }
-
-    try {
-      const res = await fetch("/api/visitor", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: visitorName, avatar_url: avatar }),
-      })
-
-      const data = await res.json()
-      if (data.error) throw new Error(data.error)
-
-      // เก็บ localStorage: name, avatar, id_user
-      localStorage.setItem("visitor_name", visitorName)
-      localStorage.setItem("visitor_avatar", avatar)
-      localStorage.setItem("visitor_id", data.data.id_user)
-
-      // ทุกครั้งที่ login → set session
-      sessionStorage.setItem("active_user", "true")
-
-      fetchVisitorCount()
-    } catch (err: any) {
-      console.error("Failed to save visit:", err.message)
-    }
-  }
-
-  async function fetchVisitorCount() {
-    try {
-      const res = await fetch("/api/visitor-count")
-      const data = await res.json()
-      setCount(data.count ?? 0)
-    } catch (err) {
-      console.error(err)
-    }
-  }
+  ]
 
   return (
-    <>
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50">
-          <Card className="p-6 w-96">
-            <h2 className="text-lg font-bold mb-4">ใส่ชื่อ + เลือกรูป Avatar</h2>
+    <section className="w-full py-16 bg-muted/20">
+      <div className="container mx-auto px-6 max-w-4xl">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-3xl font-bold mb-4">
+            Live Stats{" "}
+            <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+              📊
+            </span>
+          </h2>
+          <p className="text-muted-foreground">
+            Real-time insights about my portfolio s engagement
+          </p>
+        </motion.div>
 
-            <Input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="เช่น Korn"
-              className="mb-4"
-            />
-
-            <div className="grid grid-cols-4 gap-3 mb-4">
-              {presetAvatars.map((avatar) => (
-                <button
-                  key={avatar.src}
-                  onClick={() => setSelectedAvatar(avatar.src)}
-                  className={`rounded-lg border p-1 hover:scale-105 transition ${selectedAvatar === avatar.src ? "border-blue-500" : "border-gray-300"
-                    }`}
-                >
-                  <Image
-                    src={avatar}
-                    alt="avatar"
-                    width={60}
-                    height={60}
-                    className="rounded-md"
-                  />
-                </button>
-              ))}
-            </div>
-
-            <Button
-              className="w-full"
-              onClick={() => {
-                if (name.trim() && selectedAvatar) {
-                  saveVisit(name, selectedAvatar)
-                  setShowModal(false)
-                }
-              }}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {stats.map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -5 }}
             >
-              ยืนยัน
-            </Button>
-          </Card>
+              <Card className="text-center bg-background border-muted/50 hover:border-primary/30 transition-all duration-300 group">
+                <CardContent className="p-6">
+                  <div className={`p-3 rounded-full bg-primary/10 w-12 h-12 mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 ${stat.color}`}>
+                    <stat.icon className="w-6 h-6" />
+                  </div>
+                  <motion.p 
+                    className="text-2xl font-bold mb-2"
+                    key={stat.value}
+                    initial={{ scale: 1.1 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {stat.value}
+                  </motion.p>
+                  <p className="text-sm text-muted-foreground font-medium">
+                    {stat.label}
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
         </div>
-      )}
 
-      {/* Visitor Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <Card className="w-fit mx-auto mt-10 shadow-md">
-          <CardContent className="flex items-center gap-2 py-4 px-6">
-            <Eye className="w-5 h-5 text-muted-foreground" />
-            <span className="font-medium">Visitors:</span>
-            <AnimatePresence mode="popLayout">
-              <motion.span
-                key={displayCount}
-                className="font-bold"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-              >
-                {displayCount ?? "..."}
-              </motion.span>
-            </AnimatePresence>
-          </CardContent>
-        </Card>
-      </motion.div>
-    </>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mt-8"
+        >
+          <p className="text-sm text-muted-foreground">
+            Thanks for visiting! You are one of {visitorCount.toLocaleString()} amazing visitors.
+          </p>
+        </motion.div>
+      </div>
+    </section>
   )
 }

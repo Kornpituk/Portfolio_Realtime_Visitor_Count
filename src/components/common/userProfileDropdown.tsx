@@ -14,6 +14,7 @@ export function UserProfileDropdown() {
     const [visitorName, setVisitorName] = useState("Guest")
     const [visitorAvatar, setVisitorAvatar] = useState("")
     const [loginWithGoogle, setLoginWithGoogle] = useState(false)
+    
     const router = useRouter()
 
     // อ่านค่าหลังจาก client mount

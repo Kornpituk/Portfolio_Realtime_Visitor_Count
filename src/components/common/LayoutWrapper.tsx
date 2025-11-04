@@ -1,3 +1,4 @@
+// LayoutWrapper.tsx
 "use client"
 
 import { usePathname } from "next/navigation"
@@ -12,10 +13,10 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const isHidden = hiddenPaths.includes(pathname)
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       {!isHidden && <TopNavbar />}
-      <main className="min-h-[80vh]">{children}</main>
+      <main className="flex-1">{children}</main>
       {!isHidden && <Footer />}
-    </>
+    </div>
   )
 }
