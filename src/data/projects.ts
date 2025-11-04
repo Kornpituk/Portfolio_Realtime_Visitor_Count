@@ -1,13 +1,16 @@
 // src/data/projects.ts
-export type Project = {
-    id: number
-    title: string
-    description: string
-    image: string
-    category: string
-    link: string
-    tech: string[]
-}
+
+import { Project } from "@/types/project"
+
+// export type Project = {
+//     id: number
+//     title: string
+//     description: string
+//     image: string
+//     category: string
+//     link: string
+//     tech: string[]
+// }
 
 // src/data/projects.ts
 export const projectsMockData: Project[] = [
