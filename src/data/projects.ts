@@ -16,11 +16,12 @@ import { Project } from "@/types/project"
 export const projectsMockData: Project[] = [
   {
     id: 1,
-    title: "Portfolio Website",
+    title: "Task Manager",
     description: "My personal portfolio built with Next.js, Tailwind, shadcn/ui.",
-    image: "/images/portfolio.png",
+    images: ["/project/task_manage/01.png","/project/task_manage/02.png"],
+    image: "/project/task_manage/01.png",
     category: "Web Development",
-    tech: ["Next.js", "Tailwind", "TypeScript"],
+    tech: ["Next.js","Superbase - Prosgress", "Tailwind", "TypeScript","hero-UI","Lucide-Icon"],
     link: "/public-pages/projects?id=1",
   },
   {

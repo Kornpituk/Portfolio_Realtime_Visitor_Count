@@ -21,10 +21,10 @@ export function ProjectFilter({ categories, active, onChange }: Props) {
       transition={{ duration: 0.5 }}
       className="mb-8"
     >
-      <div className="flex items-center gap-3 mb-4">
+      {/* <div className="flex items-center gap-3 mb-4">
         <Filter className="w-5 h-5 text-primary" />
         <h3 className="font-semibold text-lg">Filter by Category</h3>
-      </div>
+      </div> */}
       
       <Tabs value={active} onValueChange={onChange} className="w-full">
         <TabsList className="flex flex-wrap h-auto p-1 bg-muted/50 gap-1">

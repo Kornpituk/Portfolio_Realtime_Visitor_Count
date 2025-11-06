@@ -100,9 +100,6 @@ export function ProjectDetailDialog({
                   </DialogDescription>
                 </div>
               </div>
-              <Button variant="ghost" size="icon" onClick={onClose}>
-                <X className="w-5 h-5" />
-              </Button>
             </DialogHeader>
 
             {/* Content */}
