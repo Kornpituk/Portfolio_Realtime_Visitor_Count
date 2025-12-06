@@ -1,10 +1,17 @@
 // home.tsx
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Github, Linkedin, Mail, Download, ArrowRight, Sparkles } from "lucide-react"
-import { TypeAnimation } from "react-type-animation"
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Download,
+  ArrowRight,
+  Sparkles,
+} from "lucide-react";
+import { TypeAnimation } from "react-type-animation";
 
 export default function Hero() {
   return (
@@ -29,18 +36,20 @@ export default function Hero() {
             transition={{ type: "spring", stiffness: 300 }}
           >
             <div className="w-24 h-24 bg-gradient-to-br from-primary to-blue-500 rounded-full flex items-center justify-center shadow-2xl">
-              <span className="text-2xl font-bold text-primary-foreground">KK</span>
+              <span className="text-2xl font-bold text-primary-foreground">
+                KK
+              </span>
             </div>
             <motion.div
               className="absolute -top-2 -right-2"
-              animate={{ 
+              animate={{
                 rotate: [0, 10, -10, 0],
-                scale: [1, 1.1, 1]
+                scale: [1, 1.1, 1],
               }}
-              transition={{ 
-                duration: 2, 
+              transition={{
+                duration: 2,
                 repeat: Infinity,
-                repeatType: "reverse"
+                repeatType: "reverse",
               }}
             >
               <Sparkles className="w-6 h-6 text-yellow-500 fill-current" />
@@ -69,18 +78,19 @@ export default function Hero() {
             >
               <TypeAnimation
                 sequence={[
-                  'Full-Stack Developer',
+                  "Full-Stack Developer",
                   2000,
-                  'React Specialist',
+                  "React Specialist",
                   2000,
-                  'Problem Solver',
+                  "Problem Solver",
                   2000,
-                  'Tech Enthusiast',
+                  "Tech Enthusiast",
                   2000,
                 ]}
                 wrapper="span"
                 speed={50}
                 repeat={Infinity}
+                preRenderFirstString={true}
               />
             </motion.div>
           </div>
@@ -93,9 +103,9 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.6 }}
         >
-          A passionate <span className="font-semibold text-foreground">Full-Stack Developer</span> who loves 
-          building modern web applications with <span className="text-primary font-medium">React</span>,{" "}
-          <span className="text-primary font-medium">Next.js</span>, and cutting-edge technologies.
+          Crafting beautiful, high-performance web experiences with{" "}
+          <span className="text-primary font-medium">React , Vue</span> and{" "}
+          <span className="text-primary font-medium">Next.js</span>
         </motion.p>
 
         {/* CTA Buttons */}
@@ -112,13 +122,13 @@ export default function Hero() {
             </a>
           </Button>
           <Button variant="outline" asChild size="lg" className="gap-2">
-            <a href="/contact">
+            <a href="/public-pages/contact">
               <Mail className="w-4 h-4" />
               Contact Me
             </a>
           </Button>
           <Button variant="ghost" asChild size="lg" className="gap-2">
-            <a href="/resume.pdf" download>
+            <a href="/Resume_Kornpitak.pdf" download>
               <Download className="w-4 h-4" />
               Resume
             </a>
@@ -133,16 +143,29 @@ export default function Hero() {
           transition={{ delay: 1, duration: 0.6 }}
         >
           {[
-            { icon: Github, href: "https://github.com/Kornpituk", label: "GitHub" },
-            { icon: Linkedin, href: "https://www.linkedin.com/in/kornpituk-kunnika-134336271/", label: "LinkedIn" },
-            { icon: Mail, href: "mailto:kornpituk@example.com", label: "Email" },
+            {
+              icon: Github,
+              href: "https://github.com/Kornpituk",
+              label: "GitHub",
+            },
+            {
+              icon: Linkedin,
+              href: "https://www.linkedin.com/in/kornpituk-kunnika-134336271/",
+              label: "LinkedIn",
+            },
+            {
+              icon: Mail,
+              href: "mailto:kornpituk@example.com",
+              label: "Email",
+            },
           ].map((social, index) => (
             <motion.a
               key={social.label}
               href={social.href}
+              aria-label={social.label} // เพิ่มตรงนี้
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 bg-muted/50 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 group"
+              className="p-3 bg-muted/50 rounded-lg hover:bg-primary/5 hover:text-primary transition-all duration-300 group"
               whileHover={{ scale: 1.1, y: -2 }}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, y: 20 }}
@@ -163,13 +186,13 @@ export default function Hero() {
         >
           <motion.div
             className="w-6 h-10 border-2 border-muted-foreground rounded-full flex justify-center"
-            animate={{ 
-              y: [0, 8, 0]
+            animate={{
+              y: [0, 8, 0],
             }}
-            transition={{ 
-              duration: 2, 
+            transition={{
+              duration: 2,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "easeInOut",
             }}
           >
             <div className="w-1 h-3 bg-muted-foreground rounded-full mt-2" />
@@ -177,5 +200,5 @@ export default function Hero() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

@@ -6,9 +6,17 @@ export interface Project {
   images?: string[] // สำหรับ multiple images
   tech: string[]
   category: string
-  githubUrl?: string
-  liveUrl?: string
-  date?: string
-  features?: string[]
+  githubUrl: string
+  liveUrl: string
+  date: string
+  features: string[]
   link: string
+  duration: string;
+  challenges: string;
+  demoUrl: string;
+  videoUrl: string
+  status: string;
+  teamSize: string;
+  role: string;
+
 }

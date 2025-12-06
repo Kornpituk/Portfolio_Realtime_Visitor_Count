@@ -1,33 +1,44 @@
 // src/components/sections/projects/project-card.tsx (updated)
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import Image from "next/image"
-import { ExternalLink, Github, Eye, Calendar } from "lucide-react"
-import { Project } from "@/types/project"
+import { motion } from "framer-motion";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { ExternalLink, Github, Eye, Calendar } from "lucide-react";
+import { Project } from "@/types/project";
 
 type Props = {
-  project: Project
-  onClick: () => void
-  viewMode?: "grid" | "list"
-  index?: number
-}
+  project: Project;
+  onClick: () => void;
+  viewMode?: "grid" | "list";
+  index?: number;
+};
 
-export function ProjectCard({ project, onClick, viewMode = "grid", index = 0 }: Props) {
+export function ProjectCard({
+  project,
+  onClick,
+  viewMode = "grid",
+  index = 0,
+}: Props) {
   if (viewMode === "list") {
     return (
       <motion.div
         variants={{
           hidden: { opacity: 0, x: -20 },
-          visible: { opacity: 1, x: 0 }
+          visible: { opacity: 1, x: 0 },
         }}
         className="w-full"
       >
-        <Card 
-          className="cursor-pointer group bg-background/50 backdrop-blur-sm border-muted/30 hover:border-primary/30 transition-all duration-300 overflow-hidden"
+        <Card
+          className="cursor-pointer group bg-muted backdrop-blur-sm border-muted/30 hover:border-primary/30 transition-all duration-300 overflow-hidden"
           onClick={onClick}
         >
           <div className="flex flex-col md:flex-row">
@@ -41,7 +52,7 @@ export function ProjectCard({ project, onClick, viewMode = "grid", index = 0 }: 
                 />
               </div>
             </div>
-            
+
             <div className="flex-1 p-6">
               <div className="flex flex-col h-full">
                 <div className="flex-1 space-y-3">
@@ -53,11 +64,11 @@ export function ProjectCard({ project, onClick, viewMode = "grid", index = 0 }: 
                       {project.category}
                     </Badge>
                   </div>
-                  
+
                   <p className="text-muted-foreground leading-relaxed">
                     {project.description}
                   </p>
-                  
+
                   <div className="flex flex-wrap gap-1.5">
                     {project.tech.slice(0, 4).map((tech) => (
                       <Badge key={tech} variant="secondary" className="text-xs">
@@ -71,7 +82,7 @@ export function ProjectCard({ project, onClick, viewMode = "grid", index = 0 }: 
                     )}
                   </div>
                 </div>
-                
+
                 <CardFooter className="p-0 pt-4 mt-4 border-t border-muted/30">
                   <div className="flex items-center justify-between w-full text-sm text-muted-foreground">
                     <div className="flex items-center gap-4">
@@ -95,7 +106,7 @@ export function ProjectCard({ project, onClick, viewMode = "grid", index = 0 }: 
           </div>
         </Card>
       </motion.div>
-    )
+    );
   }
 
   // Grid View (default)
@@ -103,12 +114,14 @@ export function ProjectCard({ project, onClick, viewMode = "grid", index = 0 }: 
     <motion.div
       variants={{
         hidden: { opacity: 0, scale: 0.9, y: 20 },
-        visible: { opacity: 1, scale: 1, y: 0 }
+        visible: { opacity: 1, scale: 1, y: 0 },
       }}
       className="h-full"
     >
-      <Card 
-        className="cursor-pointer group h-full bg-background/50 backdrop-blur-sm border-muted/30 hover:border-primary/30 transition-all duration-300 overflow-hidden shadow-lg hover:shadow-xl"
+      <Card
+        className="cursor-pointer group h-full bg-muted backdrop-blur-sm 
+        border-muted/30 hover:border-primary/30 transition-all duration-300 
+        overflow-hidden shadow-lg hover:shadow-xl"
         onClick={onClick}
       >
         <CardHeader className="p-0 relative overflow-hidden">
@@ -130,7 +143,7 @@ export function ProjectCard({ project, onClick, viewMode = "grid", index = 0 }: 
             </div>
           </div>
         </CardHeader>
-        
+
         <CardContent className="p-6 space-y-4">
           <div className="space-y-2">
             <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300 line-clamp-1">
@@ -140,7 +153,7 @@ export function ProjectCard({ project, onClick, viewMode = "grid", index = 0 }: 
               {project.description}
             </p>
           </div>
-          
+
           <div className="flex flex-wrap gap-1.5">
             {project.tech.slice(0, 3).map((tech) => (
               <Badge key={tech} variant="secondary" className="text-xs">
@@ -154,7 +167,7 @@ export function ProjectCard({ project, onClick, viewMode = "grid", index = 0 }: 
             )}
           </div>
         </CardContent>
-        
+
         <CardFooter className="p-6 pt-0">
           <div className="flex items-center justify-between w-full text-sm text-muted-foreground">
             {project.date && (
@@ -171,5 +184,5 @@ export function ProjectCard({ project, onClick, viewMode = "grid", index = 0 }: 
         </CardFooter>
       </Card>
     </motion.div>
-  )
+  );
 }

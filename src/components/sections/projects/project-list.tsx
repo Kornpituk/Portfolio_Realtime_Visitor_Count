@@ -13,6 +13,17 @@ import { Search, X, Filter, Grid3X3, List } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 
 export function ProjectList() {
   const categories = [...new Set(projectsMockData.map((p) => p.category))];
@@ -90,7 +101,7 @@ export function ProjectList() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 mx-auto">
       {/* Search and Filter Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -99,7 +110,7 @@ export function ProjectList() {
         className="space-y-6"
       >
         {/* Search and Controls Bar */}
-        <Card className="bg-background/50 backdrop-blur-sm border-muted/30">
+        <Card className="bg-background/50 backdrop-blur-sm border-muted/30 m-4">
           <CardContent className="p-6">
             <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
               {/* Search Bar */}
@@ -168,7 +179,7 @@ export function ProjectList() {
         </Card>
 
         {/* Category Filter and Results */}
-        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+        <div className="flex flex-col sm:flex-row gap-4 m-4 items-start sm:items-center justify-between">
           <div className="flex items-center gap-3">
             <Filter className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm font-medium text-muted-foreground">
@@ -202,7 +213,7 @@ export function ProjectList() {
             exit="hidden"
             className={
               viewMode === "grid"
-                ? "grid md:grid-cols-2 xl:grid-cols-3 gap-6"
+                ? "grid md:grid-cols-2 xl:grid-cols-3 gap-6 m-4"
                 : "space-y-4"
             }
           >

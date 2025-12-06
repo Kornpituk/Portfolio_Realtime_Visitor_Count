@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "./theme-toggle";
-import { Home, FolderKanban, User, Mail, AppWindow } from "lucide-react";
+import { Home, FolderKanban, User, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import { UserProfileDropdown } from "@/components/common/userProfileDropdown";
 import { Button } from "@/components/ui/button";
@@ -36,64 +36,66 @@ export function TopNavbar() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Desktop Navigation - Center */}
-            <div
-              className="hidden md:flex items-center gap-2
-  absolute left-1/2 transform -translate-x-1/2
-  backdrop-blur-sm"
-            >
+            <div className="hidden md:flex items-center gap-1 absolute left-1/2 transform -translate-x-1/2 bg-background/95 backdrop-blur-sm rounded-full px-4 py-2 border shadow-sm">
               {navItems.map((item, index) => {
                 const isActive = pathname === item.href;
-
                 return (
                   <motion.div
                     key={item.href}
-                    initial={{ opacity: 0, scale: 0.9 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.05 + index * 0.08 }}
+                    transition={{ delay: 0.1 + index * 0.1 }}
                     className="relative"
                   >
-                    <Tooltip delayDuration={100}>
-                      <TooltipTrigger asChild>
-                        <Link href={item.href}>
-                          <div
-                            className={cn(
-                              "w-40 h-14 flex items-center justify-center rounded-xl cursor-pointer transition-all relative",
-                              "hover:bg-muted/40" // hover แบบ Facebook
-                            )}
-                          >
-                            <item.icon
-                              className={cn(
-                                "w-7 h-7 transition-transform duration-200",
-                                isActive
-                                  ? "text-primary scale-110" // Active เหมือน FB
-                                  : "text-foreground/70 hover:scale-105"
-                              )}
-                            />
-                          </div>
-                        </Link>
-                      </TooltipTrigger>
+                    <Link href={item.href}>
+                      <Button
+                        variant="ghost"
+                        className={cn(
+                          "relative h-14 w-14 p-0 transition-all duration-200 group",
+                          isActive
+                            ? "bg-primary/15 text-primary"
+                            : "hover:bg-primary/8 text-muted-foreground hover:text-primary"
+                        )}
+                      >
+                        {/* ไอคอนหลัก - ขนาดใหญ่ขึ้นสำหรับ Desktop */}
+                        <item.icon
+                          className={cn(
+                            "w-7 h-7 transition-all duration-200", // ขยายจาก w-6 h-6 เป็น w-7 h-7
+                            isActive ? "scale-110" : "group-hover:scale-105"
+                          )}
+                        />
 
-                      {/* Tooltip แบบเล็ก เหมือน FB */}
+                        {/* ตัวบ่งชี้เมนูที่เลือก (เส้นใต้แบบ Facebook) */}
+                        {isActive && (
+                          <motion.div
+                            layoutId="activeIndicator"
+                            className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-10 h-1.5 bg-primary rounded-full" // ขยายเส้นใต้
+                            transition={{
+                              type: "spring",
+                              stiffness: 400,
+                              damping: 30,
+                            }}
+                          />
+                        )}
+                      </Button>
+                    </Link>
+
+                    {/* Tooltip ที่แสดงชื่อเมนูเมื่อโฮเวอร์ (แบบ Facebook) */}
+                    <Tooltip delayDuration={300}>
+                      <TooltipTrigger asChild>
+                        <div className="absolute inset-0 pointer-events-none" />
+                      </TooltipTrigger>
                       <TooltipContent
                         side="bottom"
-                        className="bg-foreground text-background px-3 py-1.5 rounded-md text-xs font-medium"
+                        className="bg-foreground text-background px-4 py-2 rounded-md text-sm font-medium" // ขยาย Tooltip
                       >
-                        {item.label}
+                        <div className="flex items-center gap-3">
+                          <item.icon className="w-5 h-5" />{" "}
+                          {/* ไอคอนใน Tooltip */}
+                          <span>{item.label}</span>
+                        </div>
                       </TooltipContent>
                     </Tooltip>
-
-                    {/* Active Indicator Bar แบบ FB */}
-                    {isActive && (
-                      <motion.div
-                        layoutId="fbActiveBar"
-                        className="absolute -bottom-1 left-0 w-full h-1 bg-primary rounded-full"
-                        transition={{
-                          type: "spring",
-                          stiffness: 350,
-                          damping: 30,
-                        }}
-                      />
-                    )}
                   </motion.div>
                 );
               })}
@@ -166,6 +168,9 @@ export function TopNavbar() {
           </motion.div>
         </div>
       </motion.nav>
+
+      {/* Spacer to prevent content from being hidden under fixed navbar */}
+      <div className="h-16 md:h-16" />
     </>
   );
 }
