@@ -1,9 +1,23 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { AboutMe } from "@/components/sections/about/about-me"
-import { Skills } from "@/components/sections/about/skills"
-import { ExperienceTimeline } from "@/components/sections/about/experience-timeline"
-import { EducationTimeline } from "@/components/sections/about/education-timeline"
+
+// Dynamic imports สำหรับ components ที่ไม่จำเป็นต้องโหลดทันที
+const Skills = dynamic(
+  () => import("@/components/sections/about/skills").then((mod) => ({ default: mod.Skills })),
+  { ssr: true }
+)
+
+const ExperienceTimeline = dynamic(
+  () => import("@/components/sections/about/experience-timeline").then((mod) => ({ default: mod.ExperienceTimeline })),
+  { ssr: true }
+)
+
+const EducationTimeline = dynamic(
+  () => import("@/components/sections/about/education-timeline").then((mod) => ({ default: mod.EducationTimeline })),
+  { ssr: true }
+)
 
 export default function AboutPage() {
     return (

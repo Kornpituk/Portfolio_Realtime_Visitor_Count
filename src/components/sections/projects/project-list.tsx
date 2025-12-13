@@ -3,11 +3,20 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { projectsMockData } from "@/data/projects";
 import { ProjectCard } from "./project-card";
 import { ProjectFilter } from "./project-filter";
-import { ProjectDetailDialog } from "./project-detail-dialog";
 import { motion, AnimatePresence } from "framer-motion";
+
+// Dynamic import สำหรับ ProjectDetailDialog เพื่อลด initial bundle size
+const ProjectDetailDialog = dynamic(
+  () => import("./project-detail-dialog").then((mod) => ({ default: mod.ProjectDetailDialog })),
+  {
+    loading: () => null, // ไม่แสดง loading indicator เพราะ dialog จะแสดงเมื่อ open=true เท่านั้น
+    ssr: false, // ไม่ต้อง render บน server เพราะเป็น dialog
+  }
+);
 import { Button } from "@/components/ui/button";
 import { Search, X, Filter, Grid3X3, List } from "lucide-react";
 import { Input } from "@/components/ui/input";
