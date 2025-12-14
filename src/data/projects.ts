@@ -1,6 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/data/projects.ts
 
-import { Project } from "@/types/project"
+import { Project } from "@/types/project";
+
+const generateImagePaths = (folder: any, count: any, prefix = "") =>
+  Array.from(
+    { length: count },
+    (_, i) => `${folder}/${prefix}${String(i + 1).padStart(2, "0")}.png`
+  );
 
 // export type Project = {
 //     id: number
@@ -17,62 +24,901 @@ export const projectsMockData: Project[] = [
   {
     id: 1,
     title: "Task Manager",
-    description: "My personal portfolio built with Next.js, Tailwind, shadcn/ui.",
+    description:
+      "My personal portfolio built with Next.js, Tailwind, shadcn/ui.",
     images: ["/project/task_manage/01.png", "/project/task_manage/02.png"],
     image: "/project/task_manage/01.png",
     category: "Web Development",
-    tech: ["Next.js", "Superbase - Prosgress", "Tailwind", "TypeScript", "hero-UI", "Lucide-Icon"],
+    tech: [
+      "Next.js",
+      "Superbase - Prosgress",
+      "Tailwind",
+      "TypeScript",
+      "hero-UI",
+      "Lucide-Icon",
+    ],
     link: "/public-pages/projects?id=1",
     demoUrl: "https://nextjs-task-manager-app-nu.vercel.app/",
-    features: ["features", "features", "features"],
+    features: [],
     duration: "duration",
-    challenges: "challenges",
-    videoUrl: "videoUrl",
+    challenges: ["challenges"],
+    videoUrl: "",
     status: "status",
     teamSize: "teamSize",
     role: "role",
     githubUrl: "https://github.com/Kornpituk/NEXTJS-task-manager-app",
     liveUrl: "https://nextjs-task-manager-app-nu.vercel.app/",
-    date: ""
+    date: "",
   },
   {
     id: 2,
-    title: "E-commerce Store",
-    description: "Full-stack e-commerce with cart, checkout, and admin dashboard.",
-    image: "/images/ecommerce.png",
-    category: "E-commerce",
-    tech: ["React", "Node.js", "MongoDB"],
+    title: "WMS SANYO KASEI (THAILAND) LTD.",
+    description:
+      "Frontend VueJs,Authentication JWT token, planner, receviep, shipment, and admin dashboard.",
+    images: generateImagePaths("/project/wms-skt", 7),
+    category: "Warehouse Manage System",
+    tech: [
+      "VueJs",
+      "Pinia",
+      "Vuetify",
+      "Remix-icon",
+      "JWT Token",
+      "Gitlab",
+      "Soucetree",
+    ],
     link: "/public-pages/projects?id=2",
-    demoUrl: "",
-    features: [],
-    duration: "",
-    challenges: "",
+    demoUrl: "https://sktdev.easetrackwms.com/login",
+    features: [
+      {
+        emoji: "🔐",
+        featureTitle: "Authentication (JWT)",
+        description: {
+          th: "ระบบเข้าสู่ระบบด้วย JWT Token เมื่อผู้ใช้ Login สำเร็จ ระบบจะนำ Token ไปใช้งานกับทุก API Request และมีการจัดการสถานะผู้ใช้ผ่าน Context หาก Token หมดอายุหรือไม่มี Token ระบบจะบังคับให้กลับไปที่หน้า Login อัตโนมัติ",
+          en: "Implemented JWT-based authentication. After successful login, the token is attached to every API request. A global auth context handles token validation and automatically redirects users to the Login page when the token is missing or expired.",
+        },
+        caseStudy: {
+          problem: {
+            th: "ระบบต้องรองรับผู้ใช้งานหลายบทบาท และมีการเรียก API จำนวนมาก หากไม่มีการจัดการ Session ที่ดี จะเกิดปัญหา Token หมดอายุ, Unauthorized access และผู้ใช้งานต้อง Login ซ้ำบ่อยครั้ง",
+            en: "The system supports multiple user roles and frequent API calls. Without proper session management, token expiration and unauthorized access could occur, leading to poor user experience.",
+          },
+          solution: {
+            th: "พัฒนาระบบ Authentication ด้วย JWT โดยจัดเก็บ Token ไว้ใน Global Context\n\n• แนบ Token ไปกับทุก API Request อัตโนมัติ\n• ตรวจสอบสถานะ Token ทุกครั้งที่เรียกใช้งาน\n• Redirect ผู้ใช้กลับไปหน้า Login เมื่อ Token หมดอายุหรือไม่พบ Token",
+            en: "Implemented JWT-based authentication using a global application context.\n\n• Automatically attached JWT to all API requests\n• Centralized token validation\n• Auto-redirect to Login when token is missing or expired",
+          },
+          result: {
+            th: "ระบบมีความปลอดภัยสูงขึ้น ลดปัญหา Session Error และทำให้ผู้ใช้งานไม่ต้องจัดการเรื่อง Authentication เอง",
+            en: "Improved security and session reliability while providing a seamless authentication experience for users.",
+          },
+          metrics: [
+            {
+              label: "Session Timeout",
+              value: "8 hours",
+              improvement: "Reduced login frequency by 80%",
+            },
+            {
+              label: "Unauthorized Access",
+              value: "0 incidents",
+              improvement: "100% prevention",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "📦",
+        featureTitle: "Stock Update",
+        description: {
+          th: "หน้าจอแสดงข้อมูล Stock ของสินค้าในรูปแบบตาราง ประกอบด้วยข้อมูล เช่น ชื่อสินค้า, Lot, จำนวน และวันหมดอายุ สามารถ Expand แถวเพื่อดูรายละเอียด Lot Batch ของสินค้าแต่ละรายการได้",
+          en: "A stock overview page displaying product information in a table format, including product name, lot number, quantity, and expiration date. Each row can be expanded to view detailed lot batch information.",
+        },
+        caseStudy: {
+          problem: {
+            th: "ผู้ใช้งานต้องการดูข้อมูล Stock และ Lot Batch ของสินค้าอย่างรวดเร็ว แต่ข้อมูลมีหลายระดับ หากแยกหลายหน้า จะทำให้ใช้งานยากและเสียเวลา",
+            en: "Users need to inspect stock and lot batch data quickly. Navigating between multiple pages reduces efficiency and clarity.",
+          },
+          solution: {
+            th: "ออกแบบ Data Table ที่สามารถ Expand ได้\n\n• แสดงข้อมูลหลักในระดับ Product\n• Expand เพื่อดูรายละเอียด Lot Batch ในหน้าเดียว\n• ลดการเปลี่ยนหน้าและเพิ่มความเร็วในการตรวจสอบข้อมูล",
+            en: "Designed an expandable data table that shows product-level data with inline lot batch details, eliminating unnecessary navigation.",
+          },
+          result: {
+            th: "ผู้ใช้งานสามารถตรวจสอบสถานะ Stock ได้รวดเร็วและเข้าใจง่ายมากขึ้น",
+            en: "Faster stock inspection and improved usability for warehouse operations.",
+          },
+          metrics: [
+            {
+              label: "Time to check stock",
+              value: "30 seconds",
+              improvement: "75% faster than previous system",
+            },
+            {
+              label: "User satisfaction",
+              value: "95%",
+              improvement: "40% improvement in user feedback",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🧾",
+        featureTitle: "Receiving Plan",
+        description: {
+          th: "ระบบจัดการแผนการรับวัตถุดิบ แบ่งออกเป็น 2 ส่วนหลัก:\n\n• Data Table สำหรับผู้จัดการ ใช้ดูภาพรวม, Approve/Cancel งาน, Filter ข้อมูล และ Export Excel\n\n• Form Input แบ่งเป็น 3 Tabs:\n  - Raw Material Receiving Form\n  - Raw Material Inspection Request Form\n  - Lorry Loading Check List\n\nฟอร์มทั้งหมดถูกพัฒนาจากเอกสาร Excel เดิม ให้สามารถกรอกข้อมูลและแนบไฟล์ COA ได้โดยตรง พร้อมระบบอนุมัติจากหัวหน้างานและผู้จัดการ",
+          en: "A receiving management feature consisting of two main parts:\n\n• Data Table View for managers to review overall receiving data, approve/cancel tasks, filter records, and export to Excel\n\n• Form Input View with three tabs:\n  - Raw Material Receiving Form\n  - Raw Material Inspection Request Form\n  - Lorry Loading Check List\n\nAll forms are digital versions of existing Excel documents, supporting direct input, COA attachment, and approval workflows.",
+        },
+        caseStudy: {
+          problem: {
+            th: "กระบวนการ Receiving เดิมใช้ Excel ที่ต้องพิมพ์ออกมาเขียน ทำให้เกิดข้อผิดพลาด, เอกสารสูญหาย และไม่สามารถติดตามสถานะงานแบบ Real-time",
+            en: "The receiving process relied on printed Excel forms, leading to errors, lost documents, and lack of real-time tracking.",
+          },
+          solution: {
+            th: "พัฒนา Receiving Plan เป็นระบบดิจิทัล แบ่งเป็น 2 ส่วน\n\n• Data Table สำหรับ Manager ดูภาพรวม, Approve, Filter และ Export\n• Form Input 3 Tabs จำลองฟอร์ม Excel เดิม รองรับการกรอกข้อมูลและแนบ COA\n• มี Workflow การ Approve จากพนักงาน → หัวหน้างาน → Manager\n• พร้อมรองรับ Lorry Loading Check List ที่เปลี่ยนตามประเภทวัตถุดิบ (15 รูปแบบ)",
+            en: "Digitized the entire receiving workflow with:\n\n• A manager-focused data table\n• Three form tabs replicating existing Excel documents\n• File attachment support (COA)\n• Approval workflow across multiple roles\n• Dynamic lorry loading forms based on material type",
+          },
+          result: {
+            th: "ลดการใช้กระดาษ เพิ่มความถูกต้องของข้อมูล และทำให้สามารถติดตามสถานะ Receiving ได้แบบ End-to-End",
+            en: "Eliminated paper-based processes, improved data accuracy, and enabled full workflow traceability.",
+          },
+          metrics: [
+            {
+              label: "Paper usage reduction",
+              value: "100%",
+              improvement: "Complete elimination of paper forms",
+            },
+            {
+              label: "Processing time",
+              value: "15 minutes",
+              improvement: "60% faster processing",
+            },
+            {
+              label: "Error rate",
+              value: "< 1%",
+              improvement: "90% reduction in data errors",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🏭",
+        featureTitle: "Production Plan",
+        description: {
+          th: "ระบบจัดการแผนการผลิต แยกการใช้งานตามบทบาท:\n\n• Production Data Table สำหรับ Manager ใช้ตรวจสอบและอนุมัติแผนการผลิต\n• Batch Plan Table สำหรับพนักงาน ใช้วางแผนการผลิตในระดับ Lot Batch แบบ Multi-input",
+          en: "Production planning system with role-based interfaces:\n\n• Production Data Table for managers to review and approve production plans\n• Batch Plan Table for staff to plan production at lot batch level with multi-input capabilities",
+        },
+        caseStudy: {
+          problem: {
+            th: "การวางแผนการผลิตต้องแยกบทบาทชัดเจนระหว่าง Manager และพนักงาน แต่ข้อมูลเชื่อมโยงกัน หากออกแบบไม่ดีจะทำให้การตรวจสอบและอนุมัติล่าช้า",
+            en: "Production planning requires clear separation of roles while keeping data tightly connected across workflows.",
+          },
+          solution: {
+            th: "แยกหน้าการใช้งานตาม Role\n\n• Production Data Table สำหรับ Manager ตรวจสอบและอนุมัติ\n• Batch Plan Table สำหรับพนักงาน วางแผนระดับ Lot Batch แบบ Multi-input\n• ทุกขั้นตอนเชื่อมต่อด้วย Approval Workflow",
+            en: "Separated views by role:\n\n• A high-level production overview for managers\n• A detailed batch planning table for staff\n• Integrated approval and feedback workflow",
+          },
+          result: {
+            th: "ลดความซับซ้อนของข้อมูล และเพิ่มความรวดเร็วในการตัดสินใจของ Manager",
+            en: "Improved planning efficiency and faster decision-making for production management.",
+          },
+          metrics: [
+            {
+              label: "Planning time",
+              value: "2 hours",
+              improvement: "50% reduction in planning cycle",
+            },
+            {
+              label: "Approval turnaround",
+              value: "4 hours",
+              improvement: "70% faster approval process",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🚚",
+        featureTitle: "Shipment Plan",
+        description: {
+          th: "ระบบจัดการแผนการจัดส่งสินค้า แสดงข้อมูลในรูปแบบ Data Table ที่สามารถ Show/Hide คอลัมน์ตามแผนกได้ รองรับฟอร์ม 2 รูปแบบ (Standard และ Lorry-Flexi) พร้อมระบบ Approve และ Print เอกสาร",
+          en: "Shipment planning system with dynamic data tables that adjust column visibility based on department. Supports two shipment form types (Standard and Lorry-Flexi) with integrated approval workflows and document printing.",
+        },
+        caseStudy: {
+          problem: {
+            th: "การจัดส่งต้องทำงานร่วมกันหลายแผนก แต่แต่ละแผนกต้องเห็นข้อมูลไม่เหมือนกัน และต้องมีการควบคุมสิทธิ์อย่างเข้มงวด",
+            en: "Shipment planning involves multiple departments with different data requirements and strict permission control.",
+          },
+          solution: {
+            th: "พัฒนา Data Table ที่\n\n• Show / Hide คอลัมน์ตามแผนก\n• ตรวจสอบสิทธิ์ทุก Input จาก Role และ Department\n• รองรับฟอร์ม 2 รูปแบบ (Standard / Lorry-Flexi) พร้อมระบบ Approve และ Print เอกสาร",
+            en: "Built a role-aware shipment planning system with:\n\n• Dynamic column visibility\n• Permission-based input validation\n• Multiple shipment form types\n• Approval and document printing workflow",
+          },
+          result: {
+            th: "ทุกแผนกทำงานร่วมกันได้ในระบบเดียว ลดความผิดพลาด และเพิ่มความโปร่งใสของกระบวนการจัดส่ง",
+            en: "Enabled smooth cross-department collaboration with reduced errors and improved process transparency.",
+          },
+          metrics: [
+            {
+              label: "Cross-department coordination",
+              value: "Seamless",
+              improvement: "Eliminated manual coordination needs",
+            },
+            {
+              label: "Shipping errors",
+              value: "Near zero",
+              improvement: "95% reduction in shipping mistakes",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🏷️",
+        featureTitle: "Print Label",
+        description: {
+          th: "หน้าจอพิมพ์สติกเกอร์ติดสินค้า สามารถ Filter และค้นหาสินค้าได้ พิมพ์สติกเกอร์ได้ทั้งขนาดเล็กและปกติ",
+          en: "Label printing interface with search and filtering capabilities. Supports printing of both small and standard-sized product labels.",
+        },
+        caseStudy: {
+          problem: {
+            th: "กระบวนการทำงานต้องใช้ Sticker ติดสินค้าในทุกขั้นตอน แต่การค้นหาและพิมพ์ข้อมูลทำได้ยาก",
+            en: "Product labeling was inefficient and time-consuming without a centralized printing system.",
+          },
+          solution: {
+            th: "พัฒนาหน้า Print Label ที่สามารถ\n\n• Filter และค้นหาสินค้า\n• พิมพ์ Sticker ได้ทั้งขนาดเล็กและปกติ",
+            en: "Developed a dedicated label printing page with search, filtering, and multiple label size support.",
+          },
+          result: {
+            th: "ลดเวลาในการเตรียมเอกสารและเพิ่มความต่อเนื่องของกระบวนการทำงาน",
+            en: "Faster labeling process and improved operational consistency.",
+          },
+          metrics: [
+            {
+              label: "Label printing time",
+              value: "1 minute",
+              improvement: "80% faster than manual printing",
+            },
+            {
+              label: "Label accuracy",
+              value: "100%",
+              improvement: "Eliminated mislabeling",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🔔",
+        featureTitle: "Notification",
+        description: {
+          th: "ระบบแจ้งเตือนเมื่อสถานะงานเปลี่ยน ผู้ใช้จะได้รับการแจ้งเตือนและสามารถคลิกเข้าไปทำงานต่อได้ทันที",
+          en: "Notification system that alerts users when task status changes, with direct navigation to relevant tasks.",
+        },
+        caseStudy: {
+          problem: {
+            th: "เมื่อสถานะงานเปลี่ยน ผู้ใช้งานไม่รู้ทันที ต้องเช็คหลายหน้า ทำให้การทำงานล่าช้า",
+            en: "Users were not immediately aware of status changes, causing delays in task execution.",
+          },
+          solution: {
+            th: "พัฒนา Notification System ที่แจ้งเตือนเมื่อสถานะงานเปลี่ยน และสามารถคลิกเข้าไปทำงานต่อได้ทันที",
+            en: "Implemented a notification system that alerts users on status changes with direct navigation to related tasks.",
+          },
+          result: {
+            th: "เพิ่มความเร็วในการทำงาน และลดการสื่อสารที่ไม่จำเป็นระหว่างทีม",
+            en: "Improved responsiveness and reduced operational friction.",
+          },
+          metrics: [
+            {
+              label: "Response time",
+              value: "Immediate",
+              improvement: "Real-time notification delivery",
+            },
+            {
+              label: "Manual follow-ups",
+              value: "Reduced by 90%",
+              improvement: "Significant reduction in communication overhead",
+            },
+          ],
+        },
+      },
+    ],
+    duration: "8 months",
+    challenges: [""],
     videoUrl: "",
-    status: "",
+    status: "Completed phase 1, mainten and Updated Phase 2",
     teamSize: "",
-    role: "",
+    role: "frontend",
     githubUrl: "",
-    liveUrl: "",
-    date: ""
+    liveUrl: "https://sktdev.easetrackwms.com/login",
+    date: "",
+    image: "/project/wms-skt/00.png",
+    impact:
+      "Digitized warehouse operations, eliminating paper-based processes and enabling real-time workflow tracking across multiple departments.",
   },
   {
     id: 3,
-    title: "Mobile Game",
-    description: "A casual 2D mobile game inspired by Stardew Valley.",
-    image: "/images/game.png",
-    category: "Game",
-    tech: ["Unity", "C#"],
-    link: "/public-pages/projects?id=3",
-    demoUrl: "",
-    features: [],
-    duration: "",
-    challenges: "",
+    title: "WMS NUTRIX PUBLIC COMPANY LIMITED ",
+    description:
+      "Frontend VueJs,Authentication JWT token, planner, receviep, shipment, and admin dashboard.",
+    images: [
+      "/project/nutrix/10.png",
+      "/project/nutrix/2.png",
+      "/project/nutrix/3.png",
+      "/project/nutrix/4.png",
+      "/project/nutrix/5.png",
+      "/project/nutrix/6.png",
+      "/project/nutrix/7.png",
+      "/project/nutrix/8.png",
+      "/project/nutrix/9.png",
+    ],
+    category: "Warehouse Manage System",
+    tech: [
+      "React",
+      "Typescript",
+      "Zustand",
+      "Shadcn",
+      "Lucide-Icon",
+      "JWT Token",
+      "Gitlab",
+      "Soucetree",
+    ],
+    link: "/public-pages/projects?id=2",
+    demoUrl: "https://sktdev.easetrackwms.com/login",
+    features: [
+      {
+        emoji: "🔐",
+        featureTitle: "Authentication (JWT)",
+        description: {
+          th: "ระบบเข้าสู่ระบบด้วย JWT Token เมื่อผู้ใช้ Login สำเร็จ ระบบจะนำ Token ไปใช้งานกับทุก API Request และมีการจัดการสถานะผู้ใช้ผ่าน Context หาก Token หมดอายุหรือไม่มี Token ระบบจะบังคับให้กลับไปที่หน้า Login อัตโนมัติ",
+          en: "Implemented JWT-based authentication. After successful login, the token is attached to every API request. A global auth context handles token validation and automatically redirects users to the Login page when the token is missing or expired.",
+        },
+        caseStudy: {
+          problem: {
+            th: "ระบบต้องรองรับผู้ใช้งานหลายบทบาท และมีการเรียก API จำนวนมาก หากไม่มีการจัดการ Session ที่ดี จะเกิดปัญหา Token หมดอายุ, Unauthorized access และผู้ใช้งานต้อง Login ซ้ำบ่อยครั้ง",
+            en: "The system supports multiple user roles and frequent API calls. Without proper session management, token expiration and unauthorized access could occur, leading to poor user experience.",
+          },
+          solution: {
+            th: "พัฒนาระบบ Authentication ด้วย JWT โดยจัดเก็บ Token ไว้ใน Global Context\n\n• แนบ Token ไปกับทุก API Request อัตโนมัติ\n• ตรวจสอบสถานะ Token ทุกครั้งที่เรียกใช้งาน\n• Redirect ผู้ใช้กลับไปหน้า Login เมื่อ Token หมดอายุหรือไม่พบ Token",
+            en: "Implemented JWT-based authentication using a global application context.\n\n• Automatically attached JWT to all API requests\n• Centralized token validation\n• Auto-redirect to Login when token is missing or expired",
+          },
+          result: {
+            th: "ระบบมีความปลอดภัยสูงขึ้น ลดปัญหา Session Error และทำให้ผู้ใช้งานไม่ต้องจัดการเรื่อง Authentication เอง",
+            en: "Improved security and session reliability while providing a seamless authentication experience for users.",
+          },
+          metrics: [
+            {
+              label: "Session Timeout",
+              value: "8 hours",
+              improvement: "Reduced login frequency by 80%",
+            },
+            {
+              label: "Unauthorized Access",
+              value: "0 incidents",
+              improvement: "100% prevention",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "📦",
+        featureTitle: "Stock Update",
+        description: {
+          th: "หน้าจอแสดงข้อมูล Stock ของสินค้าในรูปแบบตาราง ประกอบด้วยข้อมูล เช่น ชื่อสินค้า, Lot, จำนวน และวันหมดอายุ สามารถ Expand แถวเพื่อดูรายละเอียด Lot Batch ของสินค้าแต่ละรายการได้",
+          en: "A stock overview page displaying product information in a table format, including product name, lot number, quantity, and expiration date. Each row can be expanded to view detailed lot batch information.",
+        },
+        caseStudy: {
+          problem: {
+            th: "ผู้ใช้งานต้องการดูข้อมูล Stock และ Lot Batch ของสินค้าอย่างรวดเร็ว แต่ข้อมูลมีหลายระดับ หากแยกหลายหน้า จะทำให้ใช้งานยากและเสียเวลา",
+            en: "Users need to inspect stock and lot batch data quickly. Navigating between multiple pages reduces efficiency and clarity.",
+          },
+          solution: {
+            th: "ออกแบบ Data Table ที่สามารถ Expand ได้\n\n• แสดงข้อมูลหลักในระดับ Product\n• Expand เพื่อดูรายละเอียด Lot Batch ในหน้าเดียว\n• ลดการเปลี่ยนหน้าและเพิ่มความเร็วในการตรวจสอบข้อมูล",
+            en: "Designed an expandable data table that shows product-level data with inline lot batch details, eliminating unnecessary navigation.",
+          },
+          result: {
+            th: "ผู้ใช้งานสามารถตรวจสอบสถานะ Stock ได้รวดเร็วและเข้าใจง่ายมากขึ้น",
+            en: "Faster stock inspection and improved usability for warehouse operations.",
+          },
+          metrics: [
+            {
+              label: "Time to check stock",
+              value: "30 seconds",
+              improvement: "75% faster than previous system",
+            },
+            {
+              label: "User satisfaction",
+              value: "95%",
+              improvement: "40% improvement in user feedback",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🧾",
+        featureTitle: "Receiving Plan",
+        description: {
+          th: "ระบบจัดการแผนการรับวัตถุดิบ แบ่งออกเป็น 2 ส่วนหลัก:\n\n• Data Table สำหรับผู้จัดการ ใช้ดูภาพรวม, Approve/Cancel งาน, Filter ข้อมูล และ Export Excel\n\n• Form Input แบ่งเป็น 3 Tabs:\n  - Raw Material Receiving Form\n  - Raw Material Inspection Request Form\n  - Lorry Loading Check List\n\nฟอร์มทั้งหมดถูกพัฒนาจากเอกสาร Excel เดิม ให้สามารถกรอกข้อมูลและแนบไฟล์ COA ได้โดยตรง พร้อมระบบอนุมัติจากหัวหน้างานและผู้จัดการ",
+          en: "A receiving management feature consisting of two main parts:\n\n• Data Table View for managers to review overall receiving data, approve/cancel tasks, filter records, and export to Excel\n\n• Form Input View with three tabs:\n  - Raw Material Receiving Form\n  - Raw Material Inspection Request Form\n  - Lorry Loading Check List\n\nAll forms are digital versions of existing Excel documents, supporting direct input, COA attachment, and approval workflows.",
+        },
+        caseStudy: {
+          problem: {
+            th: "กระบวนการ Receiving เดิมใช้ Excel ที่ต้องพิมพ์ออกมาเขียน ทำให้เกิดข้อผิดพลาด, เอกสารสูญหาย และไม่สามารถติดตามสถานะงานแบบ Real-time",
+            en: "The receiving process relied on printed Excel forms, leading to errors, lost documents, and lack of real-time tracking.",
+          },
+          solution: {
+            th: "พัฒนา Receiving Plan เป็นระบบดิจิทัล แบ่งเป็น 2 ส่วน\n\n• Data Table สำหรับ Manager ดูภาพรวม, Approve, Filter และ Export\n• Form Input 3 Tabs จำลองฟอร์ม Excel เดิม รองรับการกรอกข้อมูลและแนบ COA\n• มี Workflow การ Approve จากพนักงาน → หัวหน้างาน → Manager\n• พร้อมรองรับ Lorry Loading Check List ที่เปลี่ยนตามประเภทวัตถุดิบ (15 รูปแบบ)",
+            en: "Digitized the entire receiving workflow with:\n\n• A manager-focused data table\n• Three form tabs replicating existing Excel documents\n• File attachment support (COA)\n• Approval workflow across multiple roles\n• Dynamic lorry loading forms based on material type",
+          },
+          result: {
+            th: "ลดการใช้กระดาษ เพิ่มความถูกต้องของข้อมูล และทำให้สามารถติดตามสถานะ Receiving ได้แบบ End-to-End",
+            en: "Eliminated paper-based processes, improved data accuracy, and enabled full workflow traceability.",
+          },
+          metrics: [
+            {
+              label: "Paper usage reduction",
+              value: "100%",
+              improvement: "Complete elimination of paper forms",
+            },
+            {
+              label: "Processing time",
+              value: "15 minutes",
+              improvement: "60% faster processing",
+            },
+            {
+              label: "Error rate",
+              value: "< 1%",
+              improvement: "90% reduction in data errors",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🏭",
+        featureTitle: "Production Plan",
+        description: {
+          th: "ระบบจัดการแผนการผลิต แยกการใช้งานตามบทบาท:\n\n• Production Data Table สำหรับ Manager ใช้ตรวจสอบและอนุมัติแผนการผลิต\n• Batch Plan Table สำหรับพนักงาน ใช้วางแผนการผลิตในระดับ Lot Batch แบบ Multi-input",
+          en: "Production planning system with role-based interfaces:\n\n• Production Data Table for managers to review and approve production plans\n• Batch Plan Table for staff to plan production at lot batch level with multi-input capabilities",
+        },
+        caseStudy: {
+          problem: {
+            th: "การวางแผนการผลิตต้องแยกบทบาทชัดเจนระหว่าง Manager และพนักงาน แต่ข้อมูลเชื่อมโยงกัน หากออกแบบไม่ดีจะทำให้การตรวจสอบและอนุมัติล่าช้า",
+            en: "Production planning requires clear separation of roles while keeping data tightly connected across workflows.",
+          },
+          solution: {
+            th: "แยกหน้าการใช้งานตาม Role\n\n• Production Data Table สำหรับ Manager ตรวจสอบและอนุมัติ\n• Batch Plan Table สำหรับพนักงาน วางแผนระดับ Lot Batch แบบ Multi-input\n• ทุกขั้นตอนเชื่อมต่อด้วย Approval Workflow",
+            en: "Separated views by role:\n\n• A high-level production overview for managers\n• A detailed batch planning table for staff\n• Integrated approval and feedback workflow",
+          },
+          result: {
+            th: "ลดความซับซ้อนของข้อมูล และเพิ่มความรวดเร็วในการตัดสินใจของ Manager",
+            en: "Improved planning efficiency and faster decision-making for production management.",
+          },
+          metrics: [
+            {
+              label: "Planning time",
+              value: "2 hours",
+              improvement: "50% reduction in planning cycle",
+            },
+            {
+              label: "Approval turnaround",
+              value: "4 hours",
+              improvement: "70% faster approval process",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🚚",
+        featureTitle: "Shipment Plan",
+        description: {
+          th: "ระบบจัดการแผนการจัดส่งสินค้า แสดงข้อมูลในรูปแบบ Data Table ที่สามารถ Show/Hide คอลัมน์ตามแผนกได้ รองรับฟอร์ม 2 รูปแบบ (Standard และ Lorry-Flexi) พร้อมระบบ Approve และ Print เอกสาร",
+          en: "Shipment planning system with dynamic data tables that adjust column visibility based on department. Supports two shipment form types (Standard and Lorry-Flexi) with integrated approval workflows and document printing.",
+        },
+        caseStudy: {
+          problem: {
+            th: "การจัดส่งต้องทำงานร่วมกันหลายแผนก แต่แต่ละแผนกต้องเห็นข้อมูลไม่เหมือนกัน และต้องมีการควบคุมสิทธิ์อย่างเข้มงวด",
+            en: "Shipment planning involves multiple departments with different data requirements and strict permission control.",
+          },
+          solution: {
+            th: "พัฒนา Data Table ที่\n\n• Show / Hide คอลัมน์ตามแผนก\n• ตรวจสอบสิทธิ์ทุก Input จาก Role และ Department\n• รองรับฟอร์ม 2 รูปแบบ (Standard / Lorry-Flexi) พร้อมระบบ Approve และ Print เอกสาร",
+            en: "Built a role-aware shipment planning system with:\n\n• Dynamic column visibility\n• Permission-based input validation\n• Multiple shipment form types\n• Approval and document printing workflow",
+          },
+          result: {
+            th: "ทุกแผนกทำงานร่วมกันได้ในระบบเดียว ลดความผิดพลาด และเพิ่มความโปร่งใสของกระบวนการจัดส่ง",
+            en: "Enabled smooth cross-department collaboration with reduced errors and improved process transparency.",
+          },
+          metrics: [
+            {
+              label: "Cross-department coordination",
+              value: "Seamless",
+              improvement: "Eliminated manual coordination needs",
+            },
+            {
+              label: "Shipping errors",
+              value: "Near zero",
+              improvement: "95% reduction in shipping mistakes",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🏷️",
+        featureTitle: "Print Label",
+        description: {
+          th: "หน้าจอพิมพ์สติกเกอร์ติดสินค้า สามารถ Filter และค้นหาสินค้าได้ พิมพ์สติกเกอร์ได้ทั้งขนาดเล็กและปกติ",
+          en: "Label printing interface with search and filtering capabilities. Supports printing of both small and standard-sized product labels.",
+        },
+        caseStudy: {
+          problem: {
+            th: "กระบวนการทำงานต้องใช้ Sticker ติดสินค้าในทุกขั้นตอน แต่การค้นหาและพิมพ์ข้อมูลทำได้ยาก",
+            en: "Product labeling was inefficient and time-consuming without a centralized printing system.",
+          },
+          solution: {
+            th: "พัฒนาหน้า Print Label ที่สามารถ\n\n• Filter และค้นหาสินค้า\n• พิมพ์ Sticker ได้ทั้งขนาดเล็กและปกติ",
+            en: "Developed a dedicated label printing page with search, filtering, and multiple label size support.",
+          },
+          result: {
+            th: "ลดเวลาในการเตรียมเอกสารและเพิ่มความต่อเนื่องของกระบวนการทำงาน",
+            en: "Faster labeling process and improved operational consistency.",
+          },
+          metrics: [
+            {
+              label: "Label printing time",
+              value: "1 minute",
+              improvement: "80% faster than manual printing",
+            },
+            {
+              label: "Label accuracy",
+              value: "100%",
+              improvement: "Eliminated mislabeling",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🔔",
+        featureTitle: "Notification",
+        description: {
+          th: "ระบบแจ้งเตือนเมื่อสถานะงานเปลี่ยน ผู้ใช้จะได้รับการแจ้งเตือนและสามารถคลิกเข้าไปทำงานต่อได้ทันที",
+          en: "Notification system that alerts users when task status changes, with direct navigation to relevant tasks.",
+        },
+        caseStudy: {
+          problem: {
+            th: "เมื่อสถานะงานเปลี่ยน ผู้ใช้งานไม่รู้ทันที ต้องเช็คหลายหน้า ทำให้การทำงานล่าช้า",
+            en: "Users were not immediately aware of status changes, causing delays in task execution.",
+          },
+          solution: {
+            th: "พัฒนา Notification System ที่แจ้งเตือนเมื่อสถานะงานเปลี่ยน และสามารถคลิกเข้าไปทำงานต่อได้ทันที",
+            en: "Implemented a notification system that alerts users on status changes with direct navigation to related tasks.",
+          },
+          result: {
+            th: "เพิ่มความเร็วในการทำงาน และลดการสื่อสารที่ไม่จำเป็นระหว่างทีม",
+            en: "Improved responsiveness and reduced operational friction.",
+          },
+          metrics: [
+            {
+              label: "Response time",
+              value: "Immediate",
+              improvement: "Real-time notification delivery",
+            },
+            {
+              label: "Manual follow-ups",
+              value: "Reduced by 90%",
+              improvement: "Significant reduction in communication overhead",
+            },
+          ],
+        },
+      },
+    ],
+    overview: {
+      th: "โปรเจคนี้เป็น Web-based Warehouse Management System (WMS) ที่พัฒนาขึ้นเพื่อทดแทนกระบวนการทำงานเดิมซึ่งพึ่งพาเอกสาร Excel และการกรอกข้อมูลด้วยมือ ระบบถูกออกแบบมาเพื่อรองรับการทำงานของหลายแผนก เช่น Warehouse, Production, Quality Control และ Logistics ภายในแพลตฟอร์มเดียว\n\nฝั่ง Frontend ถูกพัฒนาเพื่อรองรับ Workflow ที่ซับซ้อน, Role-based Access Control, และ Approval Process หลายขั้นตอน โดยแต่ละเมนูจะถูกออกแบบให้สอดคล้องกับกระบวนการทำงานจริงของหน้างาน (Operational Flow)",
+      en: "This project is a web-based Warehouse Management System (WMS) designed to replace manual, Excel-based workflows previously used across multiple departments. The system supports cross-functional operations including Warehouse, Production, Quality Control, and Logistics within a single unified platform.\n\nOn the frontend side, the application is built to handle complex workflows, role-based access control, and multi-step approval processes, while closely aligning with real-world operational flows.",
+    },
+    // Project Goals
+    goals: {
+      th: [
+        "เพิ่มประสิทธิภาพการทำงาน",
+        "ลดข้อผิดพลาดจากการใช้เอกสาร",
+        "เพิ่มความโปร่งใสของข้อมูลแบบ Real-time",
+        "ทำให้ทุกแผนกสามารถทำงานร่วมกันได้อย่างเป็นระบบ",
+        "ตรวจสอบย้อนหลังและติดตามงานได้",
+      ],
+      en: [
+        "Improve operational efficiency",
+        "Reduce human error from manual processes",
+        "Provide real-time visibility across departments",
+        "Enable structured cross-departmental collaboration",
+        "Provide traceable and auditable workflows",
+      ],
+    },
+    duration: "8 months",
+    challenges: [
+      "Complex form validation logic matching Excel calculations",
+      "Multi-role permission system with dynamic UI rendering",
+      "Real-time notification system integration",
+      "Legacy Excel format conversion maintaining data integrity",
+      "Dynamic lorry loading checklist supporting 15+ material types",
+    ],
     videoUrl: "",
-    status: "",
-    teamSize: "",
-    role: "",
+    status: "Completed phase 1, maintenance and Updated Phase 2",
+    teamSize: "4",
+    role: "Frontend Developer",
+    date: "Jan 2023 - Aug 2023",
     githubUrl: "",
-    liveUrl: "",
-    date: ""
+    liveUrl: "https://sktdev.easetrackwms.com/login",
+    image: "/project/nutrix/1.png",
+    impact:
+      "Digitized warehouse operations, eliminating paper-based processes and enabling real-time workflow tracking across multiple departments.",
+    scope: "Enterprise-level WMS for manufacturing industry",
+    performance: {
+      loadTime: "< 2s",
+      bundleSize: "< 500KB",
+      lighthouseScore: 92,
+    },
   },
-]
+  {
+    id: 4,
+    title: "WMS original Smart Reform Plus Co., Ltd.",
+    description:
+      "Frontend VueJs,Authentication JWT token, planner, receviep, shipment, and admin dashboard.",
+    images: ["/project/wms-skt/00.png"],
+    category: "Warehouse Manage System",
+    tech: [
+      "React",
+      "Typescript",
+      "Zustand",
+      "Shadcn",
+      "Lucide-Icon",
+      "JWT Token",
+      "Gitlab",
+      "Soucetree",
+    ],
+    link: "/public-pages/projects?id=2",
+    demoUrl: "https://sktdev.easetrackwms.com/login",
+    features: [
+      {
+        emoji: "🔐",
+        featureTitle: "Authentication (JWT)",
+        description: {
+          th: "ระบบเข้าสู่ระบบด้วย JWT Token เมื่อผู้ใช้ Login สำเร็จ ระบบจะนำ Token ไปใช้งานกับทุก API Request และมีการจัดการสถานะผู้ใช้ผ่าน Context หาก Token หมดอายุหรือไม่มี Token ระบบจะบังคับให้กลับไปที่หน้า Login อัตโนมัติ",
+          en: "Implemented JWT-based authentication. After successful login, the token is attached to every API request. A global auth context handles token validation and automatically redirects users to the Login page when the token is missing or expired.",
+        },
+        caseStudy: {
+          problem: {
+            th: "ระบบต้องรองรับผู้ใช้งานหลายบทบาท และมีการเรียก API จำนวนมาก หากไม่มีการจัดการ Session ที่ดี จะเกิดปัญหา Token หมดอายุ, Unauthorized access และผู้ใช้งานต้อง Login ซ้ำบ่อยครั้ง",
+            en: "The system supports multiple user roles and frequent API calls. Without proper session management, token expiration and unauthorized access could occur, leading to poor user experience.",
+          },
+          solution: {
+            th: "พัฒนาระบบ Authentication ด้วย JWT โดยจัดเก็บ Token ไว้ใน Global Context\n\n• แนบ Token ไปกับทุก API Request อัตโนมัติ\n• ตรวจสอบสถานะ Token ทุกครั้งที่เรียกใช้งาน\n• Redirect ผู้ใช้กลับไปหน้า Login เมื่อ Token หมดอายุหรือไม่พบ Token",
+            en: "Implemented JWT-based authentication using a global application context.\n\n• Automatically attached JWT to all API requests\n• Centralized token validation\n• Auto-redirect to Login when token is missing or expired",
+          },
+          result: {
+            th: "ระบบมีความปลอดภัยสูงขึ้น ลดปัญหา Session Error และทำให้ผู้ใช้งานไม่ต้องจัดการเรื่อง Authentication เอง",
+            en: "Improved security and session reliability while providing a seamless authentication experience for users.",
+          },
+          metrics: [
+            {
+              label: "Session Timeout",
+              value: "8 hours",
+              improvement: "Reduced login frequency by 80%",
+            },
+            {
+              label: "Unauthorized Access",
+              value: "0 incidents",
+              improvement: "100% prevention",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "📦",
+        featureTitle: "Stock Update",
+        description: {
+          th: "หน้าจอแสดงข้อมูล Stock ของสินค้าในรูปแบบตาราง ประกอบด้วยข้อมูล เช่น ชื่อสินค้า, Lot, จำนวน และวันหมดอายุ สามารถ Expand แถวเพื่อดูรายละเอียด Lot Batch ของสินค้าแต่ละรายการได้",
+          en: "A stock overview page displaying product information in a table format, including product name, lot number, quantity, and expiration date. Each row can be expanded to view detailed lot batch information.",
+        },
+        caseStudy: {
+          problem: {
+            th: "ผู้ใช้งานต้องการดูข้อมูล Stock และ Lot Batch ของสินค้าอย่างรวดเร็ว แต่ข้อมูลมีหลายระดับ หากแยกหลายหน้า จะทำให้ใช้งานยากและเสียเวลา",
+            en: "Users need to inspect stock and lot batch data quickly. Navigating between multiple pages reduces efficiency and clarity.",
+          },
+          solution: {
+            th: "ออกแบบ Data Table ที่สามารถ Expand ได้\n\n• แสดงข้อมูลหลักในระดับ Product\n• Expand เพื่อดูรายละเอียด Lot Batch ในหน้าเดียว\n• ลดการเปลี่ยนหน้าและเพิ่มความเร็วในการตรวจสอบข้อมูล",
+            en: "Designed an expandable data table that shows product-level data with inline lot batch details, eliminating unnecessary navigation.",
+          },
+          result: {
+            th: "ผู้ใช้งานสามารถตรวจสอบสถานะ Stock ได้รวดเร็วและเข้าใจง่ายมากขึ้น",
+            en: "Faster stock inspection and improved usability for warehouse operations.",
+          },
+          metrics: [
+            {
+              label: "Time to check stock",
+              value: "30 seconds",
+              improvement: "75% faster than previous system",
+            },
+            {
+              label: "User satisfaction",
+              value: "95%",
+              improvement: "40% improvement in user feedback",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🧾",
+        featureTitle: "Receiving Plan",
+        description: {
+          th: "ระบบจัดการแผนการรับวัตถุดิบ แบ่งออกเป็น 2 ส่วนหลัก:\n\n• Data Table สำหรับผู้จัดการ ใช้ดูภาพรวม, Approve/Cancel งาน, Filter ข้อมูล และ Export Excel\n\n• Form Input แบ่งเป็น 3 Tabs:\n  - Raw Material Receiving Form\n  - Raw Material Inspection Request Form\n  - Lorry Loading Check List\n\nฟอร์มทั้งหมดถูกพัฒนาจากเอกสาร Excel เดิม ให้สามารถกรอกข้อมูลและแนบไฟล์ COA ได้โดยตรง พร้อมระบบอนุมัติจากหัวหน้างานและผู้จัดการ",
+          en: "A receiving management feature consisting of two main parts:\n\n• Data Table View for managers to review overall receiving data, approve/cancel tasks, filter records, and export to Excel\n\n• Form Input View with three tabs:\n  - Raw Material Receiving Form\n  - Raw Material Inspection Request Form\n  - Lorry Loading Check List\n\nAll forms are digital versions of existing Excel documents, supporting direct input, COA attachment, and approval workflows.",
+        },
+        caseStudy: {
+          problem: {
+            th: "กระบวนการ Receiving เดิมใช้ Excel ที่ต้องพิมพ์ออกมาเขียน ทำให้เกิดข้อผิดพลาด, เอกสารสูญหาย และไม่สามารถติดตามสถานะงานแบบ Real-time",
+            en: "The receiving process relied on printed Excel forms, leading to errors, lost documents, and lack of real-time tracking.",
+          },
+          solution: {
+            th: "พัฒนา Receiving Plan เป็นระบบดิจิทัล แบ่งเป็น 2 ส่วน\n\n• Data Table สำหรับ Manager ดูภาพรวม, Approve, Filter และ Export\n• Form Input 3 Tabs จำลองฟอร์ม Excel เดิม รองรับการกรอกข้อมูลและแนบ COA\n• มี Workflow การ Approve จากพนักงาน → หัวหน้างาน → Manager\n• พร้อมรองรับ Lorry Loading Check List ที่เปลี่ยนตามประเภทวัตถุดิบ (15 รูปแบบ)",
+            en: "Digitized the entire receiving workflow with:\n\n• A manager-focused data table\n• Three form tabs replicating existing Excel documents\n• File attachment support (COA)\n• Approval workflow across multiple roles\n• Dynamic lorry loading forms based on material type",
+          },
+          result: {
+            th: "ลดการใช้กระดาษ เพิ่มความถูกต้องของข้อมูล และทำให้สามารถติดตามสถานะ Receiving ได้แบบ End-to-End",
+            en: "Eliminated paper-based processes, improved data accuracy, and enabled full workflow traceability.",
+          },
+          metrics: [
+            {
+              label: "Paper usage reduction",
+              value: "100%",
+              improvement: "Complete elimination of paper forms",
+            },
+            {
+              label: "Processing time",
+              value: "15 minutes",
+              improvement: "60% faster processing",
+            },
+            {
+              label: "Error rate",
+              value: "< 1%",
+              improvement: "90% reduction in data errors",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🏭",
+        featureTitle: "Production Plan",
+        description: {
+          th: "ระบบจัดการแผนการผลิต แยกการใช้งานตามบทบาท:\n\n• Production Data Table สำหรับ Manager ใช้ตรวจสอบและอนุมัติแผนการผลิต\n• Batch Plan Table สำหรับพนักงาน ใช้วางแผนการผลิตในระดับ Lot Batch แบบ Multi-input",
+          en: "Production planning system with role-based interfaces:\n\n• Production Data Table for managers to review and approve production plans\n• Batch Plan Table for staff to plan production at lot batch level with multi-input capabilities",
+        },
+        caseStudy: {
+          problem: {
+            th: "การวางแผนการผลิตต้องแยกบทบาทชัดเจนระหว่าง Manager และพนักงาน แต่ข้อมูลเชื่อมโยงกัน หากออกแบบไม่ดีจะทำให้การตรวจสอบและอนุมัติล่าช้า",
+            en: "Production planning requires clear separation of roles while keeping data tightly connected across workflows.",
+          },
+          solution: {
+            th: "แยกหน้าการใช้งานตาม Role\n\n• Production Data Table สำหรับ Manager ตรวจสอบและอนุมัติ\n• Batch Plan Table สำหรับพนักงาน วางแผนระดับ Lot Batch แบบ Multi-input\n• ทุกขั้นตอนเชื่อมต่อด้วย Approval Workflow",
+            en: "Separated views by role:\n\n• A high-level production overview for managers\n• A detailed batch planning table for staff\n• Integrated approval and feedback workflow",
+          },
+          result: {
+            th: "ลดความซับซ้อนของข้อมูล และเพิ่มความรวดเร็วในการตัดสินใจของ Manager",
+            en: "Improved planning efficiency and faster decision-making for production management.",
+          },
+          metrics: [
+            {
+              label: "Planning time",
+              value: "2 hours",
+              improvement: "50% reduction in planning cycle",
+            },
+            {
+              label: "Approval turnaround",
+              value: "4 hours",
+              improvement: "70% faster approval process",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🚚",
+        featureTitle: "Shipment Plan",
+        description: {
+          th: "ระบบจัดการแผนการจัดส่งสินค้า แสดงข้อมูลในรูปแบบ Data Table ที่สามารถ Show/Hide คอลัมน์ตามแผนกได้ รองรับฟอร์ม 2 รูปแบบ (Standard และ Lorry-Flexi) พร้อมระบบ Approve และ Print เอกสาร",
+          en: "Shipment planning system with dynamic data tables that adjust column visibility based on department. Supports two shipment form types (Standard and Lorry-Flexi) with integrated approval workflows and document printing.",
+        },
+        caseStudy: {
+          problem: {
+            th: "การจัดส่งต้องทำงานร่วมกันหลายแผนก แต่แต่ละแผนกต้องเห็นข้อมูลไม่เหมือนกัน และต้องมีการควบคุมสิทธิ์อย่างเข้มงวด",
+            en: "Shipment planning involves multiple departments with different data requirements and strict permission control.",
+          },
+          solution: {
+            th: "พัฒนา Data Table ที่\n\n• Show / Hide คอลัมน์ตามแผนก\n• ตรวจสอบสิทธิ์ทุก Input จาก Role และ Department\n• รองรับฟอร์ม 2 รูปแบบ (Standard / Lorry-Flexi) พร้อมระบบ Approve และ Print เอกสาร",
+            en: "Built a role-aware shipment planning system with:\n\n• Dynamic column visibility\n• Permission-based input validation\n• Multiple shipment form types\n• Approval and document printing workflow",
+          },
+          result: {
+            th: "ทุกแผนกทำงานร่วมกันได้ในระบบเดียว ลดความผิดพลาด และเพิ่มความโปร่งใสของกระบวนการจัดส่ง",
+            en: "Enabled smooth cross-department collaboration with reduced errors and improved process transparency.",
+          },
+          metrics: [
+            {
+              label: "Cross-department coordination",
+              value: "Seamless",
+              improvement: "Eliminated manual coordination needs",
+            },
+            {
+              label: "Shipping errors",
+              value: "Near zero",
+              improvement: "95% reduction in shipping mistakes",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🏷️",
+        featureTitle: "Print Label",
+        description: {
+          th: "หน้าจอพิมพ์สติกเกอร์ติดสินค้า สามารถ Filter และค้นหาสินค้าได้ พิมพ์สติกเกอร์ได้ทั้งขนาดเล็กและปกติ",
+          en: "Label printing interface with search and filtering capabilities. Supports printing of both small and standard-sized product labels.",
+        },
+        caseStudy: {
+          problem: {
+            th: "กระบวนการทำงานต้องใช้ Sticker ติดสินค้าในทุกขั้นตอน แต่การค้นหาและพิมพ์ข้อมูลทำได้ยาก",
+            en: "Product labeling was inefficient and time-consuming without a centralized printing system.",
+          },
+          solution: {
+            th: "พัฒนาหน้า Print Label ที่สามารถ\n\n• Filter และค้นหาสินค้า\n• พิมพ์ Sticker ได้ทั้งขนาดเล็กและปกติ",
+            en: "Developed a dedicated label printing page with search, filtering, and multiple label size support.",
+          },
+          result: {
+            th: "ลดเวลาในการเตรียมเอกสารและเพิ่มความต่อเนื่องของกระบวนการทำงาน",
+            en: "Faster labeling process and improved operational consistency.",
+          },
+          metrics: [
+            {
+              label: "Label printing time",
+              value: "1 minute",
+              improvement: "80% faster than manual printing",
+            },
+            {
+              label: "Label accuracy",
+              value: "100%",
+              improvement: "Eliminated mislabeling",
+            },
+          ],
+        },
+      },
+      {
+        emoji: "🔔",
+        featureTitle: "Notification",
+        description: {
+          th: "ระบบแจ้งเตือนเมื่อสถานะงานเปลี่ยน ผู้ใช้จะได้รับการแจ้งเตือนและสามารถคลิกเข้าไปทำงานต่อได้ทันที",
+          en: "Notification system that alerts users when task status changes, with direct navigation to relevant tasks.",
+        },
+        caseStudy: {
+          problem: {
+            th: "เมื่อสถานะงานเปลี่ยน ผู้ใช้งานไม่รู้ทันที ต้องเช็คหลายหน้า ทำให้การทำงานล่าช้า",
+            en: "Users were not immediately aware of status changes, causing delays in task execution.",
+          },
+          solution: {
+            th: "พัฒนา Notification System ที่แจ้งเตือนเมื่อสถานะงานเปลี่ยน และสามารถคลิกเข้าไปทำงานต่อได้ทันที",
+            en: "Implemented a notification system that alerts users on status changes with direct navigation to related tasks.",
+          },
+          result: {
+            th: "เพิ่มความเร็วในการทำงาน และลดการสื่อสารที่ไม่จำเป็นระหว่างทีม",
+            en: "Improved responsiveness and reduced operational friction.",
+          },
+          metrics: [
+            {
+              label: "Response time",
+              value: "Immediate",
+              improvement: "Real-time notification delivery",
+            },
+            {
+              label: "Manual follow-ups",
+              value: "Reduced by 90%",
+              improvement: "Significant reduction in communication overhead",
+            },
+          ],
+        },
+      },
+    ],
+    duration: "8 months",
+    challenges: [""],
+    videoUrl: "",
+    status: "Inprocess",
+    teamSize: "",
+    role: "frontend",
+    githubUrl: "",
+    liveUrl: "https://sktdev.easetrackwms.com/login",
+    date: "",
+    image: "/project/srp/01.png",
+  },
+];
