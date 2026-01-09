@@ -397,7 +397,7 @@ export function ProjectDetailDialog({
                   )}
 
                   <div className="flex-1 min-w-0">
-                    <DialogTitle className="text-lg sm:text-xl font-bold truncate bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                    <DialogTitle className="text-lg text-wrap sm:text-xl font-bold truncate bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
                       {project.title}
                     </DialogTitle>
                     <div className="flex items-center gap-2 mt-1 flex-wrap">
@@ -1966,7 +1966,7 @@ export function ProjectDetailDialog({
                           </div>
 
                           {/* Frontend Excellence */}
-                          <div className="p-6 rounded-xl border bg-gradient-to-r from-primary/5 to-primary/2">
+                          {/* <div className="p-6 rounded-xl border bg-gradient-to-r from-primary/5 to-primary/2">
                             <h4 className="font-semibold mb-4 flex items-center gap-2">
                               <Code2 className="w-5 h-5 text-primary" />
                               {language === "th"
@@ -2008,7 +2008,7 @@ export function ProjectDetailDialog({
                                 </motion.div>
                               ))}
                             </div>
-                          </div>
+                          </div> */}
 
                           {/* Call to Action */}
                           <motion.div

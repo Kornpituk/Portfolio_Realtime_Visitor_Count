@@ -43,6 +43,11 @@ export interface Project {
     th: string;
     en: string;
   };
+
+  descriptionOverview?: {
+    th: string;
+    en: string;
+  }
   // Optional: สำหรับ Goals แบบกำหนดเอง
   goals?: {
     th: string[];
