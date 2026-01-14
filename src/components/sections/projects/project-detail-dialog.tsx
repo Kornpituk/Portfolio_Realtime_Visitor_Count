@@ -29,7 +29,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Play,
-  Code,
   FileText,
   Sparkles,
   Target,
@@ -42,20 +41,16 @@ import {
   Award,
   TrendingUp,
   BarChart,
-  LineChart,
   Cpu,
   Database,
   Server,
-  Smartphone,
   Globe,
   Code2,
   Palette,
   Shield,
   Zap as Lightning,
   CheckCircle,
-  Download,
   Eye,
-  Maximize2,
   AlertCircle,
   Lightbulb,
 } from "lucide-react";
@@ -67,7 +62,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import { StatsGrid } from "./detail-dialog-hooks/StatsGrid";
 
@@ -156,6 +150,7 @@ export function ProjectDetailDialog({
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "unset";
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     open,
     project,
@@ -447,9 +442,8 @@ export function ProjectDetailDialog({
                       >
                         <Image
                           src={images[currentImageIndex]}
-                          alt={`${project.title} - Image ${
-                            currentImageIndex + 1
-                          }`}
+                          alt={`${project.title} - Image ${currentImageIndex + 1
+                            }`}
                           fill
                           className={cn(
                             "object-cover transition-opacity duration-300",
@@ -882,22 +876,22 @@ export function ProjectDetailDialog({
                               {(project.goals
                                 ? project.goals[language]
                                 : [
-                                    language === "th"
-                                      ? "เพิ่มประสิทธิภาพการทำงาน"
-                                      : "Improve operational efficiency",
-                                    language === "th"
-                                      ? "ลดข้อผิดพลาดจากการใช้เอกสาร"
-                                      : "Reduce human error from manual processes",
-                                    language === "th"
-                                      ? "เพิ่มความโปร่งใสของข้อมูลแบบ Real-time"
-                                      : "Provide real-time visibility",
-                                    language === "th"
-                                      ? "ทำให้ทุกแผนกสามารถทำงานร่วมกันได้อย่างเป็นระบบ"
-                                      : "Enable structured collaboration",
-                                    language === "th"
-                                      ? "ตรวจสอบย้อนหลังและติดตามงานได้"
-                                      : "Provide traceable workflows",
-                                  ]
+                                  language === "th"
+                                    ? "เพิ่มประสิทธิภาพการทำงาน"
+                                    : "Improve operational efficiency",
+                                  language === "th"
+                                    ? "ลดข้อผิดพลาดจากการใช้เอกสาร"
+                                    : "Reduce human error from manual processes",
+                                  language === "th"
+                                    ? "เพิ่มความโปร่งใสของข้อมูลแบบ Real-time"
+                                    : "Provide real-time visibility",
+                                  language === "th"
+                                    ? "ทำให้ทุกแผนกสามารถทำงานร่วมกันได้อย่างเป็นระบบ"
+                                    : "Enable structured collaboration",
+                                  language === "th"
+                                    ? "ตรวจสอบย้อนหลังและติดตามงานได้"
+                                    : "Provide traceable workflows",
+                                ]
                               ).map((goal, index) => (
                                 <motion.div
                                   key={index}
@@ -1388,28 +1382,28 @@ export function ProjectDetailDialog({
                                     {/* Description */}
                                     <p className="text-sm text-muted-foreground leading-relaxed">
                                       {feature.description[language].length >
-                                      150
+                                        150
                                         ? `${feature.description[
-                                            language
-                                          ].substring(0, 150)}...`
+                                          language
+                                        ].substring(0, 150)}...`
                                         : feature.description[language]}
                                     </p>
 
                                     {/* Read More Link */}
                                     {feature.description[language].length >
                                       150 && (
-                                      <Button
-                                        variant="link"
-                                        size="sm"
-                                        className="h-auto p-0 text-xs"
-                                        onClick={() => setActiveTab("impact")}
-                                      >
-                                        {language === "th"
-                                          ? "อ่านเพิ่มเติม"
-                                          : "Read more"}
-                                        <ChevronRight className="w-3 h-3 ml-1" />
-                                      </Button>
-                                    )}
+                                        <Button
+                                          variant="link"
+                                          size="sm"
+                                          className="h-auto p-0 text-xs"
+                                          onClick={() => setActiveTab("impact")}
+                                        >
+                                          {language === "th"
+                                            ? "อ่านเพิ่มเติม"
+                                            : "Read more"}
+                                          <ChevronRight className="w-3 h-3 ml-1" />
+                                        </Button>
+                                      )}
                                   </div>
                                 </div>
                               </motion.div>
@@ -1804,7 +1798,7 @@ export function ProjectDetailDialog({
                                           <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
                                             {
                                               feature.caseStudy?.problem[
-                                                language
+                                              language
                                               ]
                                             }
                                           </p>
@@ -1832,7 +1826,7 @@ export function ProjectDetailDialog({
                                           <div className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
                                             {
                                               feature.caseStudy?.solution[
-                                                language
+                                              language
                                               ]
                                             }
                                           </div>
@@ -1860,7 +1854,7 @@ export function ProjectDetailDialog({
                                           <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
                                             {
                                               feature.caseStudy?.result[
-                                                language
+                                              language
                                               ]
                                             }
                                           </p>
@@ -1869,7 +1863,7 @@ export function ProjectDetailDialog({
                                         {/* Metrics */}
                                         {feature.caseStudy?.metrics &&
                                           feature.caseStudy.metrics.length >
-                                            0 && (
+                                          0 && (
                                             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
                                               {feature.caseStudy.metrics.map(
                                                 (metric, idx) => (

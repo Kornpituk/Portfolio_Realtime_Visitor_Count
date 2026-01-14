@@ -3,7 +3,6 @@
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { motion } from "framer-motion"
-import { Filter } from "lucide-react"
 
 type Props = {
   categories: string[]
@@ -25,7 +24,7 @@ export function ProjectFilter({ categories, active, onChange }: Props) {
         <Filter className="w-5 h-5 text-primary" />
         <h3 className="font-semibold text-lg">Filter by Category</h3>
       </div> */}
-      
+
       <Tabs value={active} onValueChange={onChange} className="w-full">
         <TabsList className="flex flex-wrap h-auto p-1 bg-muted/50 gap-1">
           {allCategories.map((category) => (

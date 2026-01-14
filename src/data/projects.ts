@@ -1,13 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/data/projects.ts
 
 import { Project } from "@/types/project";
-
-const generateImagePaths = (folder: any, count: any, prefix = "") =>
-  Array.from(
-    { length: count },
-    (_, i) => `${folder}/${prefix}${String(i + 1).padStart(2, "0")}.png`
-  );
 
 // export type Project = {
 //     id: number
